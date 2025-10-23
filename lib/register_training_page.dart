@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import '../services/google_sheets_service.dart';
+import '../google_sheets_service.dart';
 
 class RegisterTrainingPage extends StatefulWidget {
   const RegisterTrainingPage({super.key});
