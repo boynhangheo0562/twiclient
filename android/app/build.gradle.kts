@@ -29,12 +29,23 @@ android {
 
     buildTypes {
         getByName("release") {
-            isMinifyEnabled = false
+            // ---- Fix lỗi shrink resources ----
+            isMinifyEnabled = false       // Không shrink code (R8)
+            isShrinkResources = false     // Không shrink resources
+            // ---------------------------------
+
             signingConfig = signingConfigs.getByName("debug")
+
             proguardFiles(
                 getDefaultProguardFile("proguard-android-optimize.txt"),
                 "proguard-rules.pro"
             )
+        }
+
+        getByName("debug") {
+            isMinifyEnabled = false
+            isShrinkResources = false
+            signingConfig = signingConfigs.getByName("debug")
         }
     }
 }
