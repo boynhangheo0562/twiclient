@@ -6,9 +6,14 @@ plugins {
 }
 
 android {
-    namespace = "com.example.twiappclient"
-    compileSdk = flutter.compileSdkVersion
-    ndkVersion = flutter.ndkVersion
+    compileSdk = 35
+    ndkVersion = "27.0.12077973"
+
+    defaultConfig {
+        minSdk = 23
+        targetSdk = 35
+    }
+}
 
     compileOptions {
         sourceCompatibility = JavaVersion.VERSION_11
