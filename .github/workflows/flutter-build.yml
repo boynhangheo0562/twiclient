@@ -1,31 +1,40 @@
-name: Build Flutter APK
+name: Flutter Build APK Release
 
 on:
-  workflow_dispatch:
   push:
-    branches: [ main ]
+    branches:
+      - main
+  pull_request:
 
 jobs:
   build:
     runs-on: ubuntu-latest
 
     steps:
-      - name: Checkout code
-        uses: actions/checkout@v4
-
-      - name: Setup Flutter
-        uses: subosito/flutter-action@v2
+      # Checkout code
+      - uses: actions/checkout@v3
         with:
-          flutter-version: '3.24.0'
+          submodules: recursive
 
-      - name: Get dependencies
+      # Remove dangling flutter submodule nếu có
+      - name: Remove dangling flutter submodule
+        run: |
+          if [ -d "flutter" ]; then
+            git rm -r --cached flutter || true
+            rm -rf flutter
+          fi
+
+      # Setup Flutter
+      - uses: subosito/flutter-action@v2
+        with:
+          flutter-version: "3.24.0"
+
+      # Install dependencies
+      - name: Install dependencies
         run: flutter pub get
 
+      # Build APK release
       - name: Build APK
-        run: flutter build apk --release
-
-      - name: Upload APK
-        uses: actions/upload-artifact@v4
-        with:
-          name: TWIAppClient
-          path: build/app/outputs/flutter-apk/app-release.apk
+        run: |
+          flutter clean
+          flutter build apk --release
