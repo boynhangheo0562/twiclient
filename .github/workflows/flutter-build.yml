@@ -1,4 +1,4 @@
-name: Flutter Build
+name: Flutter Web Deploy
 
 on:
   push:
@@ -7,15 +7,13 @@ on:
   pull_request:
 
 jobs:
-  build:
+  deploy:
     runs-on: ubuntu-latest
 
     steps:
       # 1️⃣ Checkout repo
       - name: Checkout code
         uses: actions/checkout@v3
-        with:
-          submodules: false
 
       # 2️⃣ Git safe directory
       - name: Git safe directory
@@ -31,26 +29,16 @@ jobs:
       - name: Install Flutter dependencies
         run: flutter pub get
 
-      # 5️⃣ Build release APK
-      - name: Build APK
-        run: |
-          flutter clean
-          flutter build apk --release
-
-      # 6️⃣ Upload APK as artifact
-      - name: Upload APK Artifact
-        uses: actions/upload-artifact@v4
-        with:
-          name: app-release
-          path: build/app/outputs/flutter-apk/app-release.apk
-
-      # 7️⃣ Build Flutter Web
+      # 5️⃣ Build Flutter Web
       - name: Build Flutter Web
         run: flutter build web --release
 
-      # 8️⃣ Deploy Web to GitHub Pages
+      # 6️⃣ Deploy Web to GitHub Pages
       - name: Deploy Web to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
           publish_dir: ./build/web
+          user_name: github-actions[bot]
+          user_email: github-actions[bot]@users.noreply.github.com
+          force_orphan: true
