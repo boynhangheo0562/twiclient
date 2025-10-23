@@ -1,7 +1,7 @@
 import 'dart:io';
 import 'package:flutter/material.dart';
 import 'package:image_picker/image_picker.dart';
-import '../services/google_sheets_service.dart';
+import 'package:twiclient/google_sheets_service.dart';
 
 class AttendancePage extends StatefulWidget {
   const AttendancePage({super.key});
