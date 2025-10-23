@@ -1,4 +1,4 @@
-name: Flutter Build APK Release
+name: Flutter Build
 
 on:
   push:
@@ -11,9 +11,8 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository, tắt submodule
-      - name: Checkout repository
-        uses: actions/checkout@v3
+      # 1️⃣ Checkout repo, tắt submodule
+      - uses: actions/checkout@v3
         with:
           submodules: false
 
@@ -21,24 +20,35 @@ jobs:
       - name: Git safe directory
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
-      # 3️⃣ Remove dangling flutter folder nếu còn
-      - name: Remove flutter folder if exists
-        run: |
-          if [ -d "flutter" ]; then
-            rm -rf flutter
-          fi
-
-      # 4️⃣ Setup Flutter
+      # 3️⃣ Setup Flutter
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.24.0"
 
-      # 5️⃣ Install dependencies
+      # 4️⃣ Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # 6️⃣ Build release APK
+      # 5️⃣ Build release APK
       - name: Build APK
         run: |
           flutter clean
           flutter build apk --release
+
+      # 6️⃣ Upload APK as artifact
+      - name: Upload APK Artifact
+        uses: actions/upload-artifact@v3
+        with:
+          name: app-release
+          path: build/app/outputs/flutter-apk/app-release.apk
+
+      # 7️⃣ Build Flutter Web
+      - name: Build Flutter Web
+        run: flutter build web --release
+
+      # 8️⃣ Deploy to GitHub Pages
+      - name: Deploy to GitHub Pages
+        uses: peaceiris/actions-gh-pages@v3
+        with:
+          github_token: ${{ secrets.GITHUB_TOKEN }}
+          publish_dir: ./build/web
