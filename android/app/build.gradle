@@ -3,9 +3,8 @@
 // found in the LICENSE file.
 
 plugins {
-    id "com.android.application"
-    id "kotlin-android"
-    id "dev.flutter.flutter-gradle-plugin"
+    id 'com.android.application'
+    id 'org.jetbrains.kotlin.android'
 }
 
 def localProperties = new Properties()
@@ -60,6 +59,7 @@ android {
     kotlinOptions {
         jvmTarget = "17"
     }
+}
     sourceSets {
         main.java.srcDirs += 'src/main/kotlin'
     }
