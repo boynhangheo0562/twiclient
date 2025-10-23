@@ -11,29 +11,33 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # Checkout code
-      - uses: actions/checkout@v3
+      # 1️⃣ Checkout repository, tắt submodule
+      - name: Checkout repository
+        uses: actions/checkout@v3
         with:
-          submodules: recursive
+          submodules: false
 
-      # Remove dangling flutter submodule nếu có
-      - name: Remove dangling flutter submodule
+      # 2️⃣ Git safe directory
+      - name: Git safe directory
+        run: git config --global --add safe.directory $GITHUB_WORKSPACE
+
+      # 3️⃣ Remove dangling flutter folder nếu còn
+      - name: Remove flutter folder if exists
         run: |
           if [ -d "flutter" ]; then
-            git rm -r --cached flutter || true
             rm -rf flutter
           fi
 
-      # Setup Flutter
+      # 4️⃣ Setup Flutter
       - uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.24.0"
 
-      # Install dependencies
+      # 5️⃣ Install dependencies
       - name: Install dependencies
         run: flutter pub get
 
-      # Build APK release
+      # 6️⃣ Build release APK
       - name: Build APK
         run: |
           flutter clean
