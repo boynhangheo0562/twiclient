@@ -11,8 +11,9 @@ jobs:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repo, tắt submodule
-      - uses: actions/checkout@v3
+      # 1️⃣ Checkout repo
+      - name: Checkout code
+        uses: actions/checkout@v3
         with:
           submodules: false
 
@@ -21,12 +22,13 @@ jobs:
         run: git config --global --add safe.directory $GITHUB_WORKSPACE
 
       # 3️⃣ Setup Flutter
-      - uses: subosito/flutter-action@v2
+      - name: Setup Flutter
+        uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.24.0"
 
       # 4️⃣ Install dependencies
-      - name: Install dependencies
+      - name: Install Flutter dependencies
         run: flutter pub get
 
       # 5️⃣ Build release APK
@@ -46,8 +48,8 @@ jobs:
       - name: Build Flutter Web
         run: flutter build web --release
 
-      # 8️⃣ Deploy to GitHub Pages
-      - name: Deploy to GitHub Pages
+      # 8️⃣ Deploy Web to GitHub Pages
+      - name: Deploy Web to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
