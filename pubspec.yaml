@@ -1,27 +1,27 @@
-name: twi_sgf
-description: Ứng dụng Thuận An - Đăng ký & Điểm danh đào tạo TWI
-publish_to: "none"
+name: twiappclient
+description: TWI Training Management App
+publish_to: 'none'
+
 version: 1.0.0+1
 
 environment:
-  sdk: ">=3.0.0 <4.0.0"
+  sdk: '>=3.0.0 <4.0.0'
 
 dependencies:
   flutter:
     sdk: flutter
-  http: ^1.2.0
-  image_picker: ^1.0.7
-  file_picker: ^6.1.1
-  flutter_local_notifications: ^17.1.2
-  cupertino_icons: ^1.0.6
-  intl: ^0.19.0
+  http: ^1.1.0
+  flutter_local_notifications: ^17.0.0
+  google_fonts: ^6.1.0
+  image_picker: ^1.1.1
+  path_provider: ^2.1.2
+  provider: ^6.0.5
 
 dev_dependencies:
   flutter_test:
     sdk: flutter
-  flutter_lints: ^3.0.1
 
 flutter:
   uses-material-design: true
   assets:
-    - assets/logo.png
+    - assets/
