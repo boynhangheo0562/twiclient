@@ -4,42 +4,32 @@ on:
   push:
     branches:
       - main
-  pull_request:
 
 jobs:
   deploy:
     runs-on: ubuntu-latest
 
     steps:
-      # 1️⃣ Checkout repository
-      - name: Checkout code
+      - name: Checkout
         uses: actions/checkout@v3
 
-      # 2️⃣ Git safe directory
-      - name: Git safe directory
-        run: git config --global --add safe.directory $GITHUB_WORKSPACE
-
-      # 3️⃣ Setup Flutter
       - name: Setup Flutter
         uses: subosito/flutter-action@v2
         with:
           flutter-version: "3.24.0"
 
-      # 4️⃣ Install dependencies
-      - name: Install Flutter dependencies
+      - name: Get dependencies
         run: flutter pub get
 
-      # 5️⃣ Build Flutter Web
-      - name: Build Flutter Web
+      - name: Build Web
         run: flutter clean && flutter build web --release
 
-      # 6️⃣ Deploy Web to GitHub Pages
-      - name: Deploy Web to GitHub Pages
+      - name: Deploy to GitHub Pages
         uses: peaceiris/actions-gh-pages@v3
         with:
           github_token: ${{ secrets.GITHUB_TOKEN }}
-          publish_dir: ./build/web       # Thư mục build web chuẩn
+          publish_dir: ./build/web
           user_name: github-actions[bot]
           user_email: github-actions[bot]@users.noreply.github.com
-          force_orphan: true             # Tạo branch gh-pages mới nếu lần đầu deploy
-          force: true                    # Ép ghi đè branch gh-pages cũ, tránh conflict
+          force_orphan: true
+          force: true
