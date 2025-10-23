@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:twiclient/pages/home_page.dart';
+import 'package:twiclient/home_page.dart';
 import 'package:flutter_local_notifications/flutter_local_notifications.dart';
 
 final FlutterLocalNotificationsPlugin flutterLocalNotificationsPlugin =
